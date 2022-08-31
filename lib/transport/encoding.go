@@ -7,8 +7,8 @@ import (
 	"github.com/kost/chashell/lib/protocol"
 	"github.com/kost/chashell/lib/splitting"
 	"encoding/hex"
-//	"github.com/golang/protobuf/proto"
-	"google.golang.org/protobuf/proto"
+	"github.com/golang/protobuf/proto"
+//	"google.golang.org/protobuf/proto"
 	"strings"
 )
 
