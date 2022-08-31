@@ -1,7 +1,7 @@
 package main
 
 import (
-	"chashell/lib/transport"
+	"github.com/kost/chashell/lib/transport"
 	"os/exec"
 	"runtime"
 )

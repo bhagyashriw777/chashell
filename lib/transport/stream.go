@@ -1,7 +1,7 @@
 package transport
 
 import (
-	"chashell/lib/logging"
+	"github.com/kost/chashell/lib/logging"
 	"github.com/Jeffail/tunny"
 	"github.com/rs/xid"
 	"io"

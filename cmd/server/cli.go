@@ -2,7 +2,7 @@ package main
 
 import (
 	"bufio"
-	"chashell/lib/transport"
+	"github.com/kost/chashell/lib/transport"
 	"fmt"
 	"github.com/c-bata/go-prompt"
 	"os"

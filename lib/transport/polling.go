@@ -1,8 +1,8 @@
 package transport
 
 import (
-	"chashell/lib/logging"
-	"chashell/lib/protocol"
+	"github.com/kost/chashell/lib/logging"
+	"github.com/kost/chashell/lib/protocol"
 	"os"
 	"strings"
 	"time"

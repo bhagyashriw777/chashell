@@ -2,12 +2,13 @@ package transport
 
 import (
 	"bytes"
-	"chashell/lib/crypto"
-	"chashell/lib/logging"
-	"chashell/lib/protocol"
-	"chashell/lib/splitting"
+	"github.com/kost/chashell/lib/crypto"
+	"github.com/kost/chashell/lib/logging"
+	"github.com/kost/chashell/lib/protocol"
+	"github.com/kost/chashell/lib/splitting"
 	"encoding/hex"
-	"github.com/golang/protobuf/proto"
+//	"github.com/golang/protobuf/proto"
+	"google.golang.org/protobuf/proto"
 	"strings"
 )
 
