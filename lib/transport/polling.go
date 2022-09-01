@@ -11,7 +11,7 @@ import (
 // Create a queue were polling data will be sent.
 var packetQueue = make(chan []byte, 100)
 
-func pollRead(stream dnsStream) {
+func pollRead(stream DnsStream) {
 	sendInfoPacket(stream)
 	loopCounter := 0
 	for {
@@ -28,7 +28,7 @@ func pollRead(stream dnsStream) {
 	}
 }
 
-func poll(stream dnsStream) {
+func poll(stream DnsStream) {
 
 	// Create a "polling" request.
 	pollQuery := &protocol.Message{
@@ -66,7 +66,7 @@ func poll(stream dnsStream) {
 	}
 }
 
-func sendInfoPacket(stream dnsStream){
+func sendInfoPacket(stream DnsStream){
 	// Get hostname.
 	name, err := os.Hostname()
 	if err != nil {

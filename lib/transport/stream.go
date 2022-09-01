@@ -7,18 +7,18 @@ import (
 	"io"
 )
 
-type dnsStream struct {
+type DnsStream struct {
 	targetDomain  string
 	encryptionKey string
 	clientGuid    []byte
 }
 
-func DNSStream(targetDomain string, encryptionKey string) *dnsStream {
+func DNSStream(targetDomain string, encryptionKey string) *DnsStream {
 	// Generate a "unique" client id.
 	guid := xid.New()
 
 	// Specify the stream configuration.
-	dnsConfig := dnsStream{targetDomain: targetDomain, encryptionKey: encryptionKey, clientGuid: guid.Bytes()}
+	dnsConfig := DnsStream{targetDomain: targetDomain, encryptionKey: encryptionKey, clientGuid: guid.Bytes()}
 
 	// Poll data from the DNS server.
 	go pollRead(dnsConfig)
@@ -26,7 +26,7 @@ func DNSStream(targetDomain string, encryptionKey string) *dnsStream {
 	return &dnsConfig
 }
 
-func (stream *dnsStream) Read(data []byte) (int, error) {
+func (stream *DnsStream) Read(data []byte) (int, error) {
 	// Wait for a packet in the queue.
 	packet := <- packetQueue
 	// Copy it into the data buffer.
@@ -35,7 +35,7 @@ func (stream *dnsStream) Read(data []byte) (int, error) {
 	return len(packet), nil
 }
 
-func (stream *dnsStream) Write(data []byte) (int, error) {
+func (stream *DnsStream) Write(data []byte) (int, error) {
 
 	// Encode the packets.
 	initPacket, dataPackets := Encode(data, true, stream.encryptionKey, stream.targetDomain, stream.clientGuid)
