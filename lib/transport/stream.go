@@ -4,6 +4,8 @@ import (
 	"github.com/kost/chashell/lib/logging"
 	"github.com/Jeffail/tunny"
 	"github.com/rs/xid"
+	"errors"
+	"time"
 	"io"
 )
 
@@ -11,6 +13,8 @@ type DnsStream struct {
 	targetDomain  string
 	encryptionKey string
 	clientGuid    []byte
+	opened        bool
+	Sleeptime     time.Duration
 }
 
 func DNSStream(targetDomain string, encryptionKey string) *DnsStream {
@@ -18,7 +22,7 @@ func DNSStream(targetDomain string, encryptionKey string) *DnsStream {
 	guid := xid.New()
 
 	// Specify the stream configuration.
-	dnsConfig := DnsStream{targetDomain: targetDomain, encryptionKey: encryptionKey, clientGuid: guid.Bytes()}
+	dnsConfig := DnsStream{targetDomain: targetDomain, encryptionKey: encryptionKey, clientGuid: guid.Bytes(), opened: true, Sleeptime: 200 * time.Millisecond}
 
 	// Poll data from the DNS server.
 	go pollRead(dnsConfig)
@@ -26,7 +30,16 @@ func DNSStream(targetDomain string, encryptionKey string) *DnsStream {
 	return &dnsConfig
 }
 
+func (stream *DnsStream) SetSleeptime (dur time.Duration) {
+	if stream != nil {
+		stream.Sleeptime = dur
+	}
+}
+
 func (stream *DnsStream) Read(data []byte) (int, error) {
+	if ! stream.opened {
+		return 0, errors.New("read after close")
+	}
 	// Wait for a packet in the queue.
 	packet := <- packetQueue
 	// Copy it into the data buffer.
@@ -36,7 +49,9 @@ func (stream *DnsStream) Read(data []byte) (int, error) {
 }
 
 func (stream *DnsStream) Write(data []byte) (int, error) {
-
+	if ! stream.opened {
+		return 0, errors.New("write after close")
+	}
 	// Encode the packets.
 	initPacket, dataPackets := Encode(data, true, stream.encryptionKey, stream.targetDomain, stream.clientGuid)
 
@@ -66,4 +81,9 @@ func (stream *DnsStream) Write(data []byte) (int, error) {
 	}
 
 	return len(data), nil
+}
+
+func (stream *DnsStream) Close() (error) {
+	stream.opened=false
+	return nil
 }
