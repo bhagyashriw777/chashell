@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/kost/chashell/lib/transport"
+	"github.com/bhagyashriw777/chashell/lib/transport"
 	"os/exec"
 	"runtime"
 )
@@ -27,4 +27,3 @@ func main() {
 	cmd.Stdin = dnsTransport
 	cmd.Run()
 }
-
