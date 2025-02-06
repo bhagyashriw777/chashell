@@ -2,8 +2,8 @@ package main
 
 import (
 	"bufio"
-	"github.com/kost/chashell/lib/transport"
 	"fmt"
+	"github.com/bhagyashriw777/chashell/lib/transport"
 	"github.com/c-bata/go-prompt"
 	"os"
 	"strings"

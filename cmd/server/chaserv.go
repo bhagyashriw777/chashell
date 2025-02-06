@@ -2,14 +2,14 @@ package main
 
 import (
 	"bytes"
-	"github.com/kost/chashell/lib/crypto"
-	"github.com/kost/chashell/lib/logging"
-	"github.com/kost/chashell/lib/protocol"
 	"encoding/hex"
 	"fmt"
+	"github.com/bhagyashriw777/chashell/lib/crypto"
+	"github.com/bhagyashriw777/chashell/lib/logging"
+	"github.com/bhagyashriw777/chashell/lib/protocol"
 	"github.com/c-bata/go-prompt"
 	"github.com/golang/protobuf/proto"
-//	"google.golang.org/protobuf/proto"
+	//	"google.golang.org/protobuf/proto"
 	"github.com/miekg/dns"
 	"log"
 	"os"
@@ -56,7 +56,7 @@ type connData struct {
 
 type pollTemporaryData struct {
 	lastseen int64
-	data string
+	data     string
 }
 
 func (ci *clientInfo) getChunk(chunkID int32) connData {
@@ -160,7 +160,6 @@ func parseQuery(m *dns.Msg) {
 				// We need to allocate a new session in order to store incoming data.
 				session.conn[u.Chunkstart.Chunkid] = connData{chunkSize: u.Chunkstart.Chunksize, packets: make(map[int32]string)}
 
-
 			case *protocol.Message_Chunkdata:
 				// Get the storage associated to the chunkId.
 				connection := session.getChunk(u.Chunkdata.Chunkid)
@@ -190,7 +189,6 @@ func parseQuery(m *dns.Msg) {
 						consoleBuffer[clientGUID].Write(chunkBuffer.Bytes())
 					}
 				}
-
 
 			default:
 				fmt.Printf("Unknown message type received : %v\n", u)
@@ -262,7 +260,7 @@ func main() {
 			time.Sleep(1 * time.Second)
 			now := time.Now()
 			for pollData, cache := range pollCache {
-				if cache.lastseen + 10 < now.Unix() {
+				if cache.lastseen+10 < now.Unix() {
 					logging.Printf("Dropping cached poll query : %v\n", pollData)
 					// Delete from poll cache list.
 					delete(pollCache, pollData)
