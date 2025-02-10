@@ -1,4 +1,4 @@
-module github.com/kost/chashell
+module github.com/bhagyashriw777/chashell
 
 go 1.17
 

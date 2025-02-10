@@ -1,12 +1,12 @@
 package transport
 
 import (
-	"github.com/kost/chashell/lib/logging"
-	"github.com/Jeffail/tunny"
-	"github.com/rs/xid"
 	"errors"
-	"time"
+	"github.com/Jeffail/tunny"
+	"github.com/bhagyashriw777/chashell/lib/logging"
+	"github.com/rs/xid"
 	"io"
+	"time"
 )
 
 type DnsStream struct {
@@ -30,18 +30,18 @@ func DNSStream(targetDomain string, encryptionKey string) *DnsStream {
 	return &dnsConfig
 }
 
-func (stream *DnsStream) SetSleeptime (dur time.Duration) {
+func (stream *DnsStream) SetSleeptime(dur time.Duration) {
 	if stream != nil {
 		stream.Sleeptime = dur
 	}
 }
 
 func (stream *DnsStream) Read(data []byte) (int, error) {
-	if ! stream.opened {
+	if !stream.opened {
 		return 0, errors.New("read after close")
 	}
 	// Wait for a packet in the queue.
-	packet := <- packetQueue
+	packet := <-packetQueue
 	// Copy it into the data buffer.
 	copy(data, packet)
 	// Return the number of bytes we read.
@@ -49,7 +49,7 @@ func (stream *DnsStream) Read(data []byte) (int, error) {
 }
 
 func (stream *DnsStream) Write(data []byte) (int, error) {
-	if ! stream.opened {
+	if !stream.opened {
 		return 0, errors.New("write after close")
 	}
 	// Encode the packets.
@@ -61,7 +61,6 @@ func (stream *DnsStream) Write(data []byte) (int, error) {
 		logging.Printf("Unable to send init packet : %v\n", err)
 		return 0, io.ErrClosedPipe
 	}
-
 
 	// Create a worker pool to asynchronously send DNS packets.
 	poll := tunny.NewFunc(8, func(packet interface{}) interface{} {
@@ -83,7 +82,7 @@ func (stream *DnsStream) Write(data []byte) (int, error) {
 	return len(data), nil
 }
 
-func (stream *DnsStream) Close() (error) {
-	stream.opened=false
+func (stream *DnsStream) Close() error {
+	stream.opened = false
 	return nil
 }

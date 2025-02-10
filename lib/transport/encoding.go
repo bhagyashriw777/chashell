@@ -2,20 +2,22 @@ package transport
 
 import (
 	"bytes"
-	"github.com/kost/chashell/lib/crypto"
-	"github.com/kost/chashell/lib/logging"
-	"github.com/kost/chashell/lib/protocol"
-	"github.com/kost/chashell/lib/splitting"
 	"encoding/hex"
+	"github.com/bhagyashriw777/chashell/lib/crypto"
+	"github.com/bhagyashriw777/chashell/lib/logging"
+	"github.com/bhagyashriw777/chashell/lib/protocol"
+	"github.com/bhagyashriw777/chashell/lib/splitting"
 	"github.com/golang/protobuf/proto"
-//	"google.golang.org/protobuf/proto"
+	//	"google.golang.org/protobuf/proto"
 	"strings"
 )
 
 // ChunkMap should contains the chunk identifier, the chunk number, and the data associated.
 var ChunkMap = map[int32]map[int32]string{}
+
 // Sessions should contains the chunk informations about the chunkid associated.
 var Sessions = map[int32]protocol.ChunkStart{}
+
 // Counter to store the current packet identifier.
 var currentChunk = 0
 

